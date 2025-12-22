@@ -21,116 +21,150 @@
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        html, body { height: 100%; overflow: hidden; overscroll-behavior: none; background-color: #f8fafc; }
-        .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .fade-in { animation: fadeIn 0.3s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        .loader { border: 3px solid #f3f3f3; border-top: 3px solid #08ABDE; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; }
+        /* APP-LIKE FEEL */
+        html, body { height: 100%; overflow: hidden; background-color: #f8fafc; -webkit-tap-highlight-color: transparent; }
+        
+        /* FULL SCREEN MODAL FIX */
+        .modal { 
+            display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.6); /* Darker dim */
+            backdrop-filter: blur(8px); /* Blur effect */
+            align-items: center; justify-content: center; 
+            padding: 20px; /* Safety padding */
+        }
+        
+        .fade-in { animation: popUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes popUp { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        
+        .loader { border: 3px solid #f3f3f3; border-top: 3px solid #08ABDE; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
-        /* HEADER FIXES */
-        .sticky-header { flex-shrink: 0; background: white; z-index: 50; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        /* HEADER & SCROLL */
+        .sticky-header { flex-shrink: 0; background: white; z-index: 50; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
+        .scroll-container { flex-grow: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 100px; }
         
-        .scroll-container { flex-grow: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 80px; }
-        input, select { font-size: 16px !important; }
+        /* INPUT POLISH */
+        input, select { font-size: 16px !important; border-radius: 12px !important; border: 1px solid #e2e8f0 !important; }
+        input:focus, select:focus { border-color: #08ABDE !important; ring: 0 !important; }
     </style>
 </head>
 <body class="font-sans flex flex-col" onload="showChoice()">
 
     <div id="choiceModal" class="modal" style="display:flex;">
-        <div class="bg-white p-8 rounded-[32px] max-w-[85%] w-full shadow-2xl fade-in text-center mx-4">
-            <img src="logo.png" style="height: 60px; width: auto; margin: 0 auto 15px auto;" alt="Logo">
+        <div class="bg-white p-6 rounded-[32px] w-full max-w-sm shadow-2xl fade-in text-center relative">
             
-            <h2 class="text-2xl font-black text-gray-800 mb-1">Welcome</h2>
-            <p class="text-gray-500 text-xs mb-6 uppercase tracking-widest font-bold">All Kerala Blood Connect</p>
+            <img src="logo.png" style="height: 50px; width: auto; margin: 0 auto 15px auto; display: block;" alt="Logo">
+            
+            <h2 class="text-2xl font-black text-gray-900 mb-1">Welcome</h2>
+            <p class="text-gray-500 text-xs mb-8 font-medium">Please select an option to continue</p>
+            
             <div class="space-y-4">
-                <button onclick="selectMode('reg')" class="w-full bg-white border-2 border-[#08ABDE] p-5 rounded-2xl flex items-center justify-between group active:bg-blue-50">
-                    <span class="text-[#08ABDE] font-black text-lg">I Want to Donate</span>
-                    <span class="text-2xl">🩸</span>
+                <button onclick="selectMode('reg')" class="w-full bg-white border border-gray-200 p-5 rounded-2xl flex items-center justify-between shadow-sm active:bg-blue-50 transition-all">
+                    <span class="text-gray-700 font-bold text-lg">I Want to Donate</span>
+                    <svg class="w-8 h-8 text-[#08ABDE]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C12 2 5 9.778 5 14.5C5 18.642 8.134 22 12 22C15.866 22 19 18.642 19 14.5C19 9.778 12 2 12 2Z"/></svg>
                 </button>
-                <button onclick="selectMode('src')" class="w-full bg-[#08ABDE] p-5 rounded-2xl shadow-xl flex items-center justify-between active:scale-95 transition">
-                    <span class="text-white font-black text-lg">I Need Blood</span>
-                    <span class="text-2xl">🔍</span>
+
+                <button onclick="selectMode('src')" class="w-full bg-[#08ABDE] border border-[#08ABDE] p-5 rounded-2xl flex items-center justify-between shadow-xl shadow-blue-200 active:scale-95 transition-all">
+                    <span class="text-white font-bold text-lg">I Need Blood</span>
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
                 </button>
             </div>
-            <p class="text-[9px] text-gray-400 mt-6 italic">"Uniting Kerala, One Drop at a Time"</p>
+            
+            <p class="text-[10px] text-gray-300 mt-8 font-medium tracking-wide">ALL KERALA BLOOD CONNECT</p>
         </div>
     </div>
 
     <div id="badgeModal" class="modal">
-        <div class="bg-white p-6 rounded-3xl max-w-[85%] w-full text-center shadow-2xl border-4 border-[#08ABDE] fade-in mx-4">
-            <img src="badge.png" class="w-full rounded-2xl mb-4 shadow-md" alt="Badge">
+        <div class="bg-white p-8 rounded-[32px] w-full max-w-sm text-center shadow-2xl fade-in mx-4">
+            <div class="bg-green-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            </div>
             <h2 class="text-2xl font-black text-gray-900">Registered!</h2>
-            <p class="text-gray-500 text-sm mt-2 mb-6">Screenshot this badge to share.</p>
-            <button onclick="window.location.reload()" class="w-full bg-gray-900 text-white font-bold py-4 rounded-xl">DONE</button>
+            <p class="text-gray-500 text-sm mt-2 mb-6 leading-relaxed">Thank you for joining.<br>Together we save lives.</p>
+            <button onclick="window.location.reload()" class="w-full bg-gray-900 text-white font-bold py-4 rounded-xl active:scale-95 transition-transform">Done</button>
         </div>
     </div>
 
     <div class="sticky-header">
-        <header class="px-4 py-3 flex items-center justify-between border-b border-gray-100 bg-white">
+        <header class="px-5 py-3 flex items-center justify-between bg-white">
+            <img src="logo.png" alt="Logo" style="height: 50px; width: auto; object-fit: contain;"> 
             
-            <img src="logo.png" alt="Logo" style="height: 60px; width: auto; max-width: 120px; object-fit: contain;"> 
-            
-            <div class="text-right ml-2">
-                <h1 class="text-xs font-black text-gray-900 leading-tight">ICM COMPUTERS</h1>
-                <p class="text-[8px] text-gray-500 font-bold uppercase tracking-tighter mt-1">PH: +91 98092 86999</p>
-                <p class="text-[#08ABDE] font-bold text-[8px] tracking-wide uppercase mt-1">ALL KERALA BLOOD CONNECT</p>
+            <div class="text-right">
+                <h1 class="text-[11px] font-black text-gray-900 leading-tight tracking-tight">ICM COMPUTERS</h1>
+                <p class="text-[9px] text-gray-400 font-bold uppercase tracking-wider mt-0.5">+91 98092 86999</p>
             </div>
         </header>
         
-        <nav class="flex bg-white border-b border-gray-200">
-            <button onclick="switchV('reg')" id="b1" class="flex-1 py-3 font-bold text-[10px] uppercase tracking-widest border-b-4 border-transparent transition-all">Register</button>
-            <button onclick="switchV('src')" id="b2" class="flex-1 py-3 font-bold text-[10px] uppercase tracking-widest border-b-4 border-transparent transition-all">Search</button>
+        <nav class="flex px-4 bg-white pb-2">
+            <div class="flex w-full bg-slate-100 p-1 rounded-xl">
+                <button onclick="switchV('reg')" id="b1" class="flex-1 py-2.5 rounded-lg text-xs font-bold transition-all text-gray-500">Register</button>
+                <button onclick="switchV('src')" id="b2" class="flex-1 py-2.5 rounded-lg text-xs font-bold transition-all text-gray-500">Search</button>
+            </div>
         </nav>
     </div>
 
-    <main class="scroll-container p-4">
+    <main class="scroll-container p-5">
         
         <div id="v-reg" style="display:none;" class="fade-in">
-            <div class="bg-white p-5 rounded-3xl shadow-sm border border-gray-200">
-                <h2 class="text-xl font-black mb-4 text-gray-800">Donor Details</h2>
-                <form id="f" class="space-y-3">
-                    <input type="text" name="data[Name]" placeholder="Full Name" required class="w-full p-4 bg-slate-50 border-gray-200 rounded-xl font-bold focus:border-[#08ABDE] focus:ring-0 outline-none">
-                    <input type="tel" name="data[Phone]" placeholder="WhatsApp Number" required pattern="[0-9]{10}" class="w-full p-4 bg-slate-50 border-gray-200 rounded-xl font-bold outline-none">
-                    <div class="grid grid-cols-2 gap-2">
-                        <input type="number" name="data[Age]" placeholder="Age" required min="18" max="65" class="p-4 bg-slate-50 border-gray-200 rounded-xl font-bold outline-none">
-                        <input type="number" name="data[Weight]" placeholder="Weight (kg)" required min="45" class="p-4 bg-slate-50 border-gray-200 rounded-xl font-bold outline-none">
-                    </div>
-                    <div class="grid grid-cols-2 gap-2">
-                        <select name="data[BloodGroup]" required class="p-4 bg-slate-50 border-gray-200 rounded-xl font-black text-gray-700 outline-none">
-                            <option value="" disabled selected>Group</option>
-                            <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
-                            <option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
-                        </select>
-                        <select name="data[District]" class="p-4 bg-slate-50 border-gray-200 rounded-xl font-bold outline-none text-sm">
-                            <option value="Kottayam" selected>Kottayam</option>
-                            <option value="Alappuzha">Alappuzha</option><option value="Ernakulam">Ernakulam</option>
-                            <option value="Idukki">Idukki</option><option value="Kannur">Kannur</option>
-                            <option value="Kasaragod">Kasaragod</option><option value="Kollam">Kollam</option>
-                            <option value="Kozhikode">Kozhikode</option><option value="Malappuram">Malappuram</option>
-                            <option value="Palakkad">Palakkad</option><option value="Pathanamthitta">Pathanamthitta</option>
-                            <option value="Thiruvananthapuram">Tvpm</option><option value="Thrissur">Thrissur</option>
-                            <option value="Wayanad">Wayanad</option>
-                        </select>
-                    </div>
-                    <input type="text" name="data[Location]" placeholder="Panchayat / Town" required class="w-full p-4 bg-blue-50 border-blue-100 rounded-xl font-bold text-brand outline-none">
-                    <input type="hidden" name="data[Date]" id="dt">
-                    <button type="submit" id="sub" class="w-full bg-[#08ABDE] text-white font-black py-4 rounded-xl shadow-lg mt-2 active:bg-brandDark transition-transform active:scale-95">REGISTER NOW</button>
-                </form>
+            <div class="mb-4">
+                <h2 class="text-2xl font-black text-gray-800">Join Us</h2>
+                <p class="text-gray-400 text-xs font-medium">Fill in your details to donate</p>
             </div>
+            
+            <form id="f" class="space-y-3">
+                <input type="text" name="data[Name]" placeholder="Full Name" required class="w-full p-4 bg-white shadow-sm focus:shadow-md transition-shadow">
+                <input type="tel" name="data[Phone]" placeholder="WhatsApp Number" required pattern="[0-9]{10}" class="w-full p-4 bg-white shadow-sm focus:shadow-md transition-shadow">
+                
+                <div class="grid grid-cols-2 gap-3">
+                    <input type="number" name="data[Age]" placeholder="Age" required min="18" max="65" class="p-4 bg-white shadow-sm">
+                    <input type="number" name="data[Weight]" placeholder="Weight (kg)" required min="45" class="p-4 bg-white shadow-sm">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-3">
+                    <select name="data[BloodGroup]" required class="p-4 bg-white shadow-sm font-bold text-gray-700">
+                        <option value="" disabled selected>Group</option>
+                        <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+                        <option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
+                    </select>
+                    <select name="data[District]" class="p-4 bg-white shadow-sm text-sm font-semibold">
+                        <option value="Kottayam" selected>Kottayam</option>
+                        <option value="Alappuzha">Alappuzha</option><option value="Ernakulam">Ernakulam</option>
+                        <option value="Idukki">Idukki</option><option value="Kannur">Kannur</option>
+                        <option value="Kasaragod">Kasaragod</option><option value="Kollam">Kollam</option>
+                        <option value="Kozhikode">Kozhikode</option><option value="Malappuram">Malappuram</option>
+                        <option value="Palakkad">Palakkad</option><option value="Pathanamthitta">Pathanamthitta</option>
+                        <option value="Thiruvananthapuram">Tvpm</option><option value="Thrissur">Thrissur</option>
+                        <option value="Wayanad">Wayanad</option>
+                    </select>
+                </div>
+                
+                <input type="text" name="data[Location]" placeholder="Panchayat / Town" required class="w-full p-4 bg-blue-50 border-blue-100 text-[#08ABDE] font-bold placeholder-blue-300">
+                <input type="hidden" name="data[Date]" id="dt">
+                
+                <button type="submit" id="sub" class="w-full bg-[#08ABDE] text-white font-black py-4 rounded-xl shadow-lg shadow-blue-200 mt-4 active:scale-95 transition-transform text-lg">
+                    REGISTER NOW
+                </button>
+            </form>
         </div>
 
         <div id="v-src" style="display:none;" class="fade-in">
-            <div class="bg-gray-900 p-6 rounded-[32px] text-white text-center shadow-lg mb-4">
-                <h2 class="text-2xl font-black mb-1">Find Donors</h2>
-                <p class="text-gray-400 text-[10px] uppercase font-bold mb-4">Select Blood Group</p>
-                <select id="sg" class="w-full p-4 rounded-xl text-gray-900 font-black mb-3 text-lg text-center outline-none">
-                    <option value="" disabled selected>Select Group</option>
-                    <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
-                    <option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
-                </select>
-                <button onclick="findD()" class="w-full bg-[#08ABDE] text-white font-black py-4 rounded-xl active:scale-95 transition shadow-lg">SEARCH</button>
+            <div class="bg-gray-900 p-6 rounded-[28px] text-white shadow-xl mb-6 relative overflow-hidden">
+                <div class="relative z-10">
+                    <h2 class="text-2xl font-black mb-1">Find Donors</h2>
+                    <p class="text-gray-400 text-[10px] uppercase font-bold mb-4 tracking-wider">Search the Database</p>
+                    <div class="flex gap-2">
+                        <select id="sg" class="flex-grow p-4 rounded-xl text-gray-900 font-bold text-center outline-none">
+                            <option value="" disabled selected>Select Group</option>
+                            <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+                            <option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
+                        </select>
+                        <button onclick="findD()" class="bg-[#08ABDE] text-white px-6 rounded-xl font-bold active:scale-95 transition">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                        </button>
+                    </div>
+                </div>
             </div>
+            
             <div id="res" class="space-y-3 pb-10"></div>
         </div>
 
@@ -152,21 +186,25 @@
         function switchV(v) {
             document.getElementById('v-reg').style.display = (v === 'reg' ? 'block' : 'none');
             document.getElementById('v-src').style.display = (v === 'src' ? 'block' : 'none');
+            
             const b1 = document.getElementById('b1');
             const b2 = document.getElementById('b2');
             
-            const inactive = "flex-1 py-3 font-bold text-[10px] uppercase tracking-widest border-b-4 border-transparent text-gray-400 bg-white";
-            const active = "flex-1 py-3 font-bold text-[10px] uppercase tracking-widest border-b-4 border-[#08ABDE] text-[#08ABDE] bg-blue-50/30";
-            
-            b1.className = (v === 'reg' ? active : inactive);
-            b2.className = (v === 'src' ? active : inactive);
+            // Modern Toggle Style
+            if(v === 'reg') {
+                b1.className = "flex-1 py-2.5 rounded-lg text-xs font-bold transition-all bg-white text-gray-900 shadow-sm";
+                b2.className = "flex-1 py-2.5 rounded-lg text-xs font-bold transition-all text-gray-400 hover:text-gray-600";
+            } else {
+                b1.className = "flex-1 py-2.5 rounded-lg text-xs font-bold transition-all text-gray-400 hover:text-gray-600";
+                b2.className = "flex-1 py-2.5 rounded-lg text-xs font-bold transition-all bg-white text-gray-900 shadow-sm";
+            }
         }
 
         document.getElementById('f').addEventListener('submit', function(e) {
             e.preventDefault();
             const b = document.getElementById('sub');
             const orig = b.innerHTML;
-            b.innerHTML = '<span class="loader mx-auto"></span>';
+            b.innerHTML = '<div class="loader mx-auto"></div>';
             b.disabled = true;
             document.getElementById('dt').value = new Date().toLocaleDateString();
             
@@ -180,7 +218,7 @@
                 this.reset();
                 b.innerHTML = orig; b.disabled = false;
             })
-            .catch(() => { alert('Network Error. Please check connection.'); b.innerHTML = orig; b.disabled = false; });
+            .catch(() => { alert('Network Error'); b.innerHTML = orig; b.disabled = false; });
         });
 
         function findD() {
@@ -195,18 +233,21 @@
             .then(data => {
                 r.innerHTML = '';
                 if(!data || data.length === 0) { 
-                    r.innerHTML = '<div class="bg-white p-8 rounded-2xl text-center border-2 border-dashed border-gray-200"><p class="text-gray-400 font-bold">No Donors Found</p><p class="text-[10px] text-gray-400 mt-1">Try a different group or check back later.</p></div>';
+                    r.innerHTML = '<div class="bg-white p-6 rounded-2xl text-center border border-dashed border-gray-300"><p class="text-gray-500 font-bold text-sm">No Donors Found</p></div>';
                     return; 
                 }
                 data.forEach(d => {
                     const wa = `https://wa.me/91${d.Phone}?text=Hello ${encodeURIComponent(d.Name)}, I found your contact on All Kerala Blood Connect. We need ${d.BloodGroup} blood urgently.`;
                     r.innerHTML += `
                         <div class="bg-white p-4 rounded-2xl border border-gray-100 flex justify-between items-center shadow-sm active:bg-gray-50 mb-3">
-                            <div>
-                                <h3 class="font-black text-gray-800 text-sm">${d.Name} <span class="text-[#08ABDE] ml-1 bg-blue-50 px-2 rounded-md">${d.BloodGroup}</span></h3>
-                                <p class="text-[9px] font-black uppercase text-gray-400 tracking-widest mt-1">${d.Location} • ${d.District}</p>
+                            <div class="flex items-center gap-3">
+                                <div class="bg-blue-50 w-10 h-10 rounded-full flex items-center justify-center text-[#08ABDE] font-black text-xs">${d.BloodGroup}</div>
+                                <div>
+                                    <h3 class="font-bold text-gray-800 text-sm leading-tight">${d.Name}</h3>
+                                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wide">${d.Location}</p>
+                                </div>
                             </div>
-                            <a href="${wa}" class="bg-[#25D366] text-white p-3 rounded-xl shadow-lg active:scale-90 transition">
+                            <a href="${wa}" class="bg-[#25D366] text-white w-10 h-10 rounded-xl flex items-center justify-center shadow-lg active:scale-90 transition">
                                 <svg class="h-5 w-5 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                             </a>
                         </div>`;
