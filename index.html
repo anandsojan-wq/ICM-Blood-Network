@@ -155,7 +155,7 @@
         // ---------------------------------------------------------
         // ⚠️ PASTE YOUR SHEETDB LINK HERE ⚠️
         // ---------------------------------------------------------
-        const url = "https://sheetdb.io/api/v1/lvz4qn8a9pihhhttps://sheetdb.io/api/v1/lvz4qn8a9pihh"; 
+        const url = "https://script.google.com/macros/s/AKfycbwmXWO7Bnwm9MMTqQz6m4gqL3wWBVQoyvZDiLUr7Dxb0lUHm62OZm1-p-1zpOvVPoe5dA/exec"; 
 
         // 1. Navigation Logic
         function switchV(v) {
@@ -190,21 +190,42 @@
             const fd = new FormData(this);
 
             fetch(url, { method: 'POST', body: fd })
-            .then(res => {
-                if (res.ok) {
-                    document.getElementById('badgeModal').style.display='flex'; 
-                    this.reset();
-                    b.innerHTML = orig;
-                    b.disabled = false;
-                } else {
-                    throw new Error("Server Error");
-                }
-            })
-            .catch((error) => { 
-                console.error(error);
-                alert('Connection Error. Please check internet.'); 
-                b.innerHTML = orig; 
-                b.disabled = false; 
+            document.getElementById('f').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const b = document.getElementById('sub');
+    const orig = b.innerHTML;
+    b.innerHTML = '<span class="loader"></span> PROCESSING...';
+    b.disabled = true;
+
+    // Create a simple Javascript object from the form
+    const formData = new FormData(this);
+    const data = {};
+    formData.forEach((value, key) => {
+        // This removes the "data[]" part from the name for the script
+        const cleanKey = key.replace('data[', '').replace(']', '');
+        data[cleanKey] = value;
+    });
+
+    fetch(url, {
+        method: 'POST',
+        mode: 'no-cors', // Critical for Google Script
+        cache: 'no-cache',
+        body: JSON.stringify(data)
+    })
+    .then(() => {
+        // Because of 'no-cors', we assume success if no crash
+        document.getElementById('badgeModal').style.display='flex'; 
+        this.reset();
+        b.innerHTML = orig;
+        b.disabled = false;
+    })
+    .catch((error) => { 
+        console.error(error);
+        alert('Connection Error. Please check internet.'); 
+        b.innerHTML = orig; 
+        b.disabled = false; 
+    });
+});
             });
         });
 
