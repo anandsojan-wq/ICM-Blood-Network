@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kottayam Blood Network</title>
+    <title>All Kerala Blood Connect</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
     <script>
         tailwind.config = {
@@ -18,11 +18,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         html { scroll-behavior: smooth; }
-        /* Modal Styles */
         .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); align-items: center; justify-content: center; backdrop-filter: blur(5px); }
         .fade-in { animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        /* Loader */
         .loader { border: 3px solid #f3f3f3; border-top: 3px solid #08ABDE; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .sticky-header { position: sticky; top: 0; z-index: 50; background: white; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
@@ -34,20 +32,17 @@
         <div class="bg-white p-8 rounded-[40px] max-w-sm w-full mx-4 shadow-2xl fade-in text-center relative">
             <h2 class="text-2xl font-black text-gray-800 mb-2">Welcome</h2>
             <p class="text-gray-500 text-sm mb-8">Please select an option to continue</p>
-            
             <div class="space-y-4">
                 <button onclick="selectMode('reg')" class="w-full bg-white border-2 border-[#08ABDE] p-5 rounded-2xl shadow-sm hover:bg-blue-50 transition flex items-center justify-between group">
                     <span class="text-[#08ABDE] font-black text-lg">I Want to Donate</span>
                     <span class="text-2xl group-hover:scale-110 transition">🩸</span>
                 </button>
-
                 <button onclick="selectMode('src')" class="w-full bg-[#08ABDE] border-2 border-[#08ABDE] p-5 rounded-2xl shadow-xl hover:shadow-2xl transition flex items-center justify-between">
                     <span class="text-white font-black text-lg">I Need Blood</span>
                     <span class="text-2xl">🔍</span>
                 </button>
             </div>
-            
-            <p class="text-[10px] text-gray-400 mt-8 uppercase tracking-widest">Kottayam District Blood Forum</p>
+            <p class="text-[10px] text-gray-400 mt-8 uppercase tracking-widest">All Kerala Blood Connect</p>
         </div>
     </div>
 
@@ -62,19 +57,14 @@
 
     <div class="sticky-header">
         <header class="p-4 flex flex-col items-center justify-center text-center border-b border-gray-100">
-            <img src="logo.png" alt="Logo" class="h-20 w-auto object-contain"> 
-            
+            <img src="logo.png" alt="Logo" class="h-60 w-auto object-contain mb-2"> 
             <div class="mt-1">
                 <h1 class="text-lg font-black text-gray-900 uppercase tracking-tight leading-none">ICM COMPUTERS</h1>
-                <p class="text-[10px] text-gray-500 font-medium uppercase tracking-wider mt-1">
-                    ICM CAMPUS, MAIN ROAD, PALLIKAVALA, THALAYOLAPARAMBU, KERALA 686605
-                </p>
-                <p class="text-[#08ABDE] font-bold text-[9px] tracking-[0.2em] uppercase mt-1">
-                    KOTTAYAM DISTRICT BLOOD FORUM
-                </p>
+                <p class="text-[10px] text-gray-500 font-medium uppercase tracking-wider mt-1">ICM CAMPUS, PALLIKAVALA, THALAYOLAPARAMBU, KERALA 686605 <br> <span class="text-gray-900 font-bold">PH: +91 98092 86999</span></p>
+                
+                <p class="text-[#08ABDE] font-bold text-xs tracking-[0.15em] uppercase mt-2">ALL KERALA BLOOD CONNECT</p>
             </div>
         </header>
-
         <nav class="flex bg-white shadow-sm">
             <button onclick="switchV('reg')" id="b1" class="flex-1 py-4 font-bold text-xs uppercase tracking-widest border-b-4 transition-all hover:bg-gray-50 text-gray-400 border-transparent">Register</button>
             <button onclick="switchV('src')" id="b2" class="flex-1 py-4 font-bold text-xs uppercase tracking-widest border-b-4 transition-all hover:bg-gray-50 text-gray-400 border-transparent">Search</button>
@@ -89,14 +79,13 @@
                 <form id="f" class="space-y-4">
                     <input type="text" name="data[Name]" placeholder="Full Name" required class="w-full p-4 bg-slate-50 border border-gray-200 rounded-2xl font-bold outline-none focus:ring-2 focus:ring-brand/20 transition">
                     <input type="tel" name="data[Phone]" placeholder="WhatsApp Number" required pattern="[0-9]{10}" class="w-full p-4 bg-slate-50 border border-gray-200 rounded-2xl font-bold outline-none focus:ring-2 focus:ring-brand/20 transition">
-                    
                     <div class="grid grid-cols-2 gap-3">
                         <input type="number" name="data[Age]" placeholder="Age" required min="18" max="65" class="p-4 bg-slate-50 border border-gray-200 rounded-2xl font-bold outline-none">
                         <input type="number" name="data[Weight]" placeholder="Weight (kg)" required min="45" class="p-4 bg-slate-50 border border-gray-200 rounded-2xl font-bold outline-none">
                     </div>
-
                     <div class="grid grid-cols-2 gap-3">
-                        <select name="data[BloodGroup]" class="p-4 bg-slate-50 border border-gray-200 rounded-2xl font-black text-gray-700 outline-none">
+                        <select name="data[BloodGroup]" required class="p-4 bg-slate-50 border border-gray-200 rounded-2xl font-black text-gray-700 outline-none">
+                            <option value="" disabled selected>Blood Group</option>
                             <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
                             <option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
                         </select>
@@ -117,10 +106,8 @@
                             <option value="Wayanad">Wayanad</option>
                         </select>
                     </div>
-
                     <input type="text" name="data[Location]" placeholder="Type Panchayat / Town Name" required class="w-full p-4 bg-blue-50 border border-blue-100 rounded-2xl font-bold text-brand outline-none focus:ring-2 focus:ring-brand/20 transition">
                     <input type="hidden" name="data[Date]" id="dt">
-                    
                     <button type="submit" id="sub" class="w-full bg-[#08ABDE] hover:bg-[#0689b3] text-white font-black py-5 rounded-2xl shadow-lg mt-4 text-lg transition-all active:scale-95">REGISTER NOW</button>
                 </form>
             </div>
@@ -131,7 +118,8 @@
                 <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-10 -mt-10"></div>
                 <h2 class="text-3xl font-black mb-2 relative z-10">Find Blood</h2>
                 <p class="text-gray-400 text-xs font-bold uppercase tracking-widest mb-6 relative z-10">Search Database</p>
-                <select id="sg" class="w-full p-4 rounded-2xl text-gray-900 font-black mb-4 appearance-none text-xl outline-none shadow-inner text-center">
+                <select id="sg" required class="w-full p-4 rounded-2xl text-gray-900 font-black mb-4 appearance-none text-xl outline-none shadow-inner text-center">
+                    <option value="" disabled selected>Select Blood Group</option>
                     <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
                     <option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
                 </select>
@@ -144,36 +132,28 @@
 
     <script>
         // ---------------------------------------------------------
-        // ⚠️ PASTE YOUR GOOGLE APPS SCRIPT URL HERE ⚠️
-        // Example: https://script.google.com/macros/s/AKfycbx.../exec
+        // ✅ URL (NO CHANGES NEEDED HERE)
+        const url = "https://script.google.com/macros/s/AKfycbx26EW3BD00D6KUskqPLliVz80KlwaxCFd3uNN0fIm2uLRwqjgFPAfYX3AsYl8XRNZyeg/exec";
         // ---------------------------------------------------------
-        const url = "https://script.google.com/macros/s/AKfycbwmXWO7Bnwm9MMTqQz6m4gqL3wWBVQoyvZDiLUr7Dxb0lUHm62OZm1-p-1zpOvVPoe5dA/exec"; 
 
-        // 1. POPUP LOGIC
         function showChoice() {
-            document.body.style.overflow = 'hidden'; // Lock scroll
+            document.body.style.overflow = 'hidden';
             document.getElementById('choiceModal').style.display = 'flex';
         }
 
         function selectMode(mode) {
             document.getElementById('choiceModal').style.display = 'none';
-            document.body.style.overflow = 'auto'; // Unlock scroll
+            document.body.style.overflow = 'auto';
             switchV(mode);
         }
 
-        // 2. NAVIGATION LOGIC
         function switchV(v) {
             document.getElementById('v-reg').style.display = (v === 'reg' ? 'block' : 'none');
             document.getElementById('v-src').style.display = (v === 'src' ? 'block' : 'none');
-
             const b1 = document.getElementById('b1');
             const b2 = document.getElementById('b2');
-            
-            // Reset
             b1.className = "flex-1 py-4 font-bold text-xs uppercase tracking-widest border-b-4 transition-all hover:bg-gray-50 text-gray-400 border-transparent";
             b2.className = "flex-1 py-4 font-bold text-xs uppercase tracking-widest border-b-4 transition-all hover:bg-gray-50 text-gray-400 border-transparent";
-
-            // Activate
             if(v === 'reg') {
                 b1.className = "flex-1 py-4 font-bold text-xs uppercase tracking-widest border-b-4 transition-all bg-blue-50/50 border-[#08ABDE] text-[#08ABDE]";
             } else if (v === 'src') {
@@ -181,9 +161,10 @@
             }
         }
 
-        // 3. FORM SUBMISSION (Using Google Apps Script Logic)
+        // SUBMIT FORM
         document.getElementById('f').addEventListener('submit', function(e) {
             e.preventDefault();
+            const form = this;
             const b = document.getElementById('sub');
             const orig = b.innerHTML;
             
@@ -191,25 +172,22 @@
             b.disabled = true;
             document.getElementById('dt').value = new Date().toLocaleDateString();
             
-            // Prepare Data for Google Script
-            const formData = new FormData(this);
+            const formData = new FormData(form);
             const data = {};
             formData.forEach((value, key) => {
                 const cleanKey = key.replace('data[', '').replace(']', '');
                 data[cleanKey] = value;
             });
 
-            // The Fetch Call
             fetch(url, {
                 method: 'POST',
-                mode: 'no-cors',
-                cache: 'no-cache',
-                headers: { 'Content-Type': 'application/json' },
+                redirect: 'follow',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify(data)
             })
             .then(() => {
                 document.getElementById('badgeModal').style.display='flex'; 
-                this.reset();
+                form.reset();
                 b.innerHTML = orig;
                 b.disabled = false;
             })
@@ -221,40 +199,56 @@
             });
         });
 
-        // 4. SEARCH LOGIC (Only works if you deployed the GET function in Google Script)
-        // Note: For now, if you are using simple Google Script POST, Search might need a real DB or SheetDB.
-        // If you are using SheetDB for search, replace the URL inside this function.
+        // SEARCH DONORS
         function findD() {
             const g = document.getElementById('sg').value;
             const r = document.getElementById('res');
-            r.innerHTML = '<div class="text-center py-10"><span class="loader border-[#08ABDE]"></span></div>';
             
-            // NOTE: Google Apps Script "GET" search is complex. 
-            // If search fails, consider using SheetDB just for reading, and Google Script for writing.
+            if(!g || g === '') {
+                alert('Please select a blood group first');
+                return;
+            }
+            
+            r.innerHTML = '<div class="text-center py-10"><span class="loader border-[#08ABDE]"></span><p class="text-gray-500 mt-3 font-bold">Searching for '+g+' donors...</p></div>';
+            
             fetch(url + '?BloodGroup=' + encodeURIComponent(g))
-            .then(res => res.json()).then(data => {
+            .then(res => res.json())
+            .then(data => {
                 r.innerHTML = '';
-                if(data.length === 0) { 
-                    r.innerHTML = '<div class="text-center py-10 border-2 border-dashed border-gray-200 rounded-3xl"><p class="text-gray-400 font-bold">No donors found for '+g+'</p></div>'; 
+                if(!data || data.length === 0) { 
+                    r.innerHTML = '<div class="text-center py-10 border-2 border-dashed border-gray-200 rounded-3xl"><p class="text-gray-400 font-bold text-lg mb-2">No donors found</p><p class="text-gray-500 text-sm">No registered '+g+' donors available at the moment.</p></div>'; 
                     return; 
                 }
+                
                 data.forEach(d => {
-                    const wa = `https://wa.me/91${d.Phone}?text=Hello ${d.Name}, urgent requirement for ${d.BloodGroup} blood.`;
+                    const wa = `https://wa.me/91${d.Phone}?text=Hello ${encodeURIComponent(d.Name)}, I found your contact through All Kerala Blood Connect. We have an urgent requirement for ${d.BloodGroup} blood. Can you help?`;
                     const details = d.Age ? `${d.Age} Yrs • ${d.Weight} Kg` : "Verified Donor";
+                    const registeredDate = d.Date ? `Registered: ${d.Date}` : "";
+                    
                     r.innerHTML += `
                         <div class="bg-white p-5 rounded-3xl border border-gray-100 flex justify-between items-center shadow-sm hover:shadow-md transition mb-3">
                             <div class="max-w-[65%]">
-                                <h3 class="font-black text-gray-800 text-lg leading-tight truncate">${d.Name}</h3>
-                                <p class="text-[10px] text-[#08ABDE] font-black uppercase tracking-widest mt-1 truncate">${d.Location} • ${d.District || 'Kottayam'}</p>
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="font-black text-gray-800 text-lg leading-tight truncate">${d.Name}</h3>
+                                    <span class="bg-red-100 text-red-600 text-xs font-black px-2 py-1 rounded-lg">${d.BloodGroup}</span>
+                                </div>
+                                <p class="text-[10px] text-[#08ABDE] font-black uppercase tracking-widest mt-1 truncate">${d.Location} • ${d.District || 'Kerala'}</p>
                                 <p class="text-xs text-gray-400 font-semibold mt-1">${details}</p>
+                                ${registeredDate ? `<p class="text-[9px] text-gray-300 font-medium mt-1">${registeredDate}</p>` : ''}
                             </div>
                             <div class="flex space-x-2">
-                                <a href="${wa}" target="_blank" class="bg-[#25D366] text-white w-12 h-12 flex items-center justify-center rounded-2xl shadow-lg active:scale-90 transition">
+                                <a href="${wa}" target="_blank" class="bg-[#25D366] text-white w-12 h-12 flex items-center justify-center rounded-2xl shadow-lg active:scale-90 transition" title="Contact on WhatsApp">
                                     <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                                 </a>
                             </div>
                         </div>`;
                 });
+                
+                r.innerHTML += `<div class="text-center py-4 text-gray-500 text-sm font-semibold">Found ${data.length} donor${data.length > 1 ? 's' : ''} with blood group ${g}</div>`;
+            })
+            .catch((error) => {
+                console.error('Search error:', error);
+                r.innerHTML = '<div class="text-center py-10 border-2 border-dashed border-red-200 rounded-3xl"><p class="text-red-400 font-bold text-lg mb-2">Error loading donors</p><p class="text-gray-500 text-sm">Please check your connection and try again.</p></div>';
             });
         }
     </script>
