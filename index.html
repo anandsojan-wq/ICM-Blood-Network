@@ -21,7 +21,6 @@
     </script>
 
     <style>
-        /* 1. ANIMATED GRADIENT MESH BACKGROUND */
         body { font-family: 'Inter', sans-serif; overflow: hidden; background: #f8fafc; height: 100vh; position: relative; }
         .mesh-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; background: #fff; }
         .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.5; animation: move 20s infinite alternate; }
@@ -29,12 +28,9 @@
         .orb-2 { bottom: -10%; right: -10%; width: 70vw; height: 70vw; background: #F0F9FF; animation-delay: -5s; }
         @keyframes move { from { transform: translate(0,0); } to { transform: translate(10%, 10%); } }
 
-        /* 2. GLASSMORPHISM & UI EFFECTS */
         .glass { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.4); }
-        /* Reduced bottom padding since nav is now at top */
         .content-scroll { height: 100%; overflow-y: auto; padding-bottom: 40px; -webkit-overflow-scrolling: touch; padding-top: 140px; }
         
-        /* 3. TYPOGRAPHY & INPUTS */
         .magazine-heading { font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
         
         input, select, .btn-std { 
@@ -54,12 +50,10 @@
             outline: none;
         }
 
-        /* 4. MICRO-INTERACTIONS */
         button:active { transform: scale(0.96); transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .fade-in { animation: slideUp 0.4s ease-out forwards; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 5. MODAL */
         .modal { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0,0,0,0.3); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 20px; }
     </style>
 </head>
@@ -144,7 +138,7 @@
                     
                     <div class="grid grid-cols-2 gap-4">
                         <input type="number" inputmode="numeric" name="data[Age]" placeholder="Age" required min="18" max="65" class="p-4 text-center">
-                        <input type="number" inputmode="numeric" name="data[Weight]" placeholder="Weight" required min="45" class="p-4 text-center">
+                        <input type="number" inputmode="numeric" name="data[Weight]" placeholder="Kg" required min="45" class="p-4 text-center">
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
@@ -179,11 +173,24 @@
 
             <div class="bg-slate-900 p-8 rounded-[40px] text-white shadow-2xl mb-8 relative overflow-hidden">
                 <div class="absolute -right-6 -top-6 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
-                <select id="sg" class="w-full p-4 rounded-2xl text-slate-900 font-bold text-base mb-4 text-center outline-none">
-                    <option value="" disabled selected>Select Blood Group</option>
-                    <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
-                    <option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
-                </select>
+                
+                <div class="space-y-4 mb-6">
+                    <select id="sg" class="w-full p-4 rounded-2xl text-slate-900 font-bold text-base text-center outline-none">
+                        <option value="" disabled selected>Select Blood Group</option>
+                        <option>A+</option><option>A-</option><option>B+</option><option>B-</option>
+                        <option>O+</option><option>O-</option><option>AB+</option><option>AB-</option>
+                    </select>
+
+                    <select id="sd" class="w-full p-4 rounded-2xl text-slate-900 font-bold text-base text-center outline-none">
+                        <option value="" selected>All Districts</option>
+                        <option>Alappuzha</option><option>Ernakulam</option><option>Idukki</option>
+                        <option>Kannur</option><option>Kasaragod</option><option>Kollam</option>
+                        <option>Kottayam</option><option>Kozhikode</option><option>Malappuram</option>
+                        <option>Palakkad</option><option>Pathanamthitta</option><option>Tvpm</option>
+                        <option>Thrissur</option><option>Wayanad</option>
+                    </select>
+                </div>
+
                 <button onclick="findD()" class="w-full bg-brand text-white py-4 rounded-2xl shadow-xl font-bold text-base hover:bg-brandDark transition-colors">SEARCH NOW</button>
             </div>
             <div id="res" class="space-y-4"></div>
@@ -213,14 +220,12 @@
             const b1 = document.getElementById('b1');
             const b2 = document.getElementById('b2');
 
-            // Updated styles for the new header tabs
             const active = "bg-white text-slate-900 shadow-md ring-1 ring-black/5";
             const inactive = "text-slate-400 hover:text-slate-600";
 
             b1.className = `flex-1 py-2.5 rounded-lg font-bold text-xs uppercase tracking-widest transition-all ${v === 'reg' ? active : inactive}`;
             b2.className = `flex-1 py-2.5 rounded-lg font-bold text-xs uppercase tracking-widest transition-all ${v === 'src' ? active : inactive}`;
             
-            // Scroll to top when switching
             document.querySelector('.content-scroll').scrollTop = 0;
         }
 
@@ -243,19 +248,31 @@
 
         function findD() {
             const g = document.getElementById('sg').value;
+            const dst = document.getElementById('sd').value; // Get District Value
             const r = document.getElementById('res');
-            if(!g) return;
+            
+            if(!g) { alert('Please select a blood group.'); return; }
+            
             r.innerHTML = '<div class="text-center py-10 text-slate-400 font-bold">Scanning database...</div>';
             
+            // 1. Fetch by Blood Group
             fetch(url + '?BloodGroup=' + encodeURIComponent(g))
             .then(res => res.json())
             .then(data => {
                 r.innerHTML = '';
-                if(!data || data.length === 0) { 
-                    r.innerHTML = '<div class="text-center p-8 glass rounded-3xl font-bold text-slate-400">No donors found.</div>';
+                
+                // 2. Filter locally by District (if one is selected)
+                let results = data;
+                if(dst && dst !== "All Districts") {
+                    results = data.filter(d => d.District === dst);
+                }
+
+                if(!results || results.length === 0) { 
+                    r.innerHTML = `<div class="text-center p-8 glass rounded-3xl font-bold text-slate-400">No donors found${dst ? ' in ' + dst : ''}.</div>`;
                     return; 
                 }
-                data.forEach(d => {
+
+                results.forEach(d => {
                     const wa = `https://wa.me/91${d.Phone}?text=Hello ${encodeURIComponent(d.Name)}, urgent need for ${d.BloodGroup} blood.`;
                     r.innerHTML += `
                         <div class="glass p-5 rounded-[32px] flex justify-between items-center shadow-sm hover:shadow-md transition-shadow">
